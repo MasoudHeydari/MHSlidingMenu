@@ -10,22 +10,13 @@ import UIKit
 
 class DarkView: UIView { }
 
-
-enum MHSlidinMenuDirection {
-    case RTL
-    case LTR
-}
-
-enum MHSlidingMenuMode {
-    case slideIn
-    case slideOut
-}
-
 final class MHBaseSlidingController: UIViewController {
     
     private let isMenuMode: Bool
     private let isLeftToRight: Bool
     private let statusbarStyleWhenMenuIsOpen: UIStatusBarStyle
+    
+    private let config: MHSlidingCofig
     
     private let withDuration: TimeInterval = 0.3
     fileprivate let direction: MHSlidinMenuDirection
@@ -41,7 +32,7 @@ final class MHBaseSlidingController: UIViewController {
     private var menuController: UIViewController
     
     private var isMenuOpen = false
-    private var menuWidth: CGFloat = 310
+    private var menuWidth: CGFloat
     private let velocityThreshold: CGFloat = 500
     
     fileprivate let mainViewContainer: UIView = {
@@ -75,19 +66,22 @@ final class MHBaseSlidingController: UIViewController {
     }()
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return isMenuOpen ? self.statusbarStyleWhenMenuIsOpen : .default
+        return isMenuOpen ? self.config.statusbarStyleWhenMenuIsOpen : .default
     }
     
-    init(baseController: UIViewController, menuController: UIViewController, mode: MHSlidingMenuMode = .slideIn, direction: MHSlidinMenuDirection = .LTR, statusbarStyleWhenMenuIsOpen: UIStatusBarStyle = .default) {
+    init(baseController: UIViewController, menuController: UIViewController, config: MHSlidingCofig) {
+        self.config = config
         self.rightViewController = UINavigationController(rootViewController: baseController)
         self.menuController = menuController
-        self.mode = mode
-        self.direction = direction
+        self.mode = config.mode
+        self.direction = config.direction
         
-        self.isMenuMode = (mode == .slideOut) ? true : false
-        self.isLeftToRight = (direction == .LTR) ? true : false
+        self.isMenuMode = (config.mode == .slideOut) ? true : false
+        self.isLeftToRight = (config.direction == .LTR) ? true : false
 
-        self.statusbarStyleWhenMenuIsOpen = statusbarStyleWhenMenuIsOpen
+        self.menuWidth = config.menuWidth
+        
+        self.statusbarStyleWhenMenuIsOpen = config.statusbarStyleWhenMenuIsOpen
         super.init(nibName: nil, bundle: nil)
     }
     

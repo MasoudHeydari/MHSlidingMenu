@@ -20,6 +20,7 @@
 		95847630224284EC00B61427 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9584762F224284EC00B61427 /* MenuController.swift */; };
 		959E214B22516094003D5523 /* PrimaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E214A22516094003D5523 /* PrimaryModel.swift */; };
 		959E214D22516472003D5523 /* PromotionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E214C22516472003D5523 /* PromotionsViewController.swift */; };
+		95BA5F092279727D005C6428 /* MHSlidingConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA5F082279727D005C6428 /* MHSlidingConfig.swift */; };
 		95E990B6225014FA00BF597C /* MenuItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E990B5225014FA00BF597C /* MenuItemCell.swift */; };
 		95E990B82250151000BF597C /* HeaderLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E990B72250151000BF597C /* HeaderLabel.swift */; };
 		95E990BA2250152B00BF597C /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E990B92250152B00BF597C /* HeaderView.swift */; };
@@ -42,6 +43,7 @@
 		9584762F224284EC00B61427 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		959E214A22516094003D5523 /* PrimaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryModel.swift; sourceTree = "<group>"; };
 		959E214C22516472003D5523 /* PromotionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionsViewController.swift; sourceTree = "<group>"; };
+		95BA5F082279727D005C6428 /* MHSlidingConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHSlidingConfig.swift; sourceTree = "<group>"; };
 		95E990B5225014FA00BF597C /* MenuItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItemCell.swift; sourceTree = "<group>"; };
 		95E990B72250151000BF597C /* HeaderLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLabel.swift; sourceTree = "<group>"; };
 		95E990B92250152B00BF597C /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				9565300E22422F94002CD65E /* MHBaseSlidingController.swift */,
+				95BA5F082279727D005C6428 /* MHSlidingConfig.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 				95E990BD22501AC100BF597C /* SocialViewController.swift in Sources */,
 				95E990B6225014FA00BF597C /* MenuItemCell.swift in Sources */,
 				952C27942253FE0D0004111D /* EmailImageView.swift in Sources */,
+				95BA5F092279727D005C6428 /* MHSlidingConfig.swift in Sources */,
 				95652FF722422906002CD65E /* AppDelegate.swift in Sources */,
 				9506DE4C224E596500DDF49B /* PrimaryItemCell.swift in Sources */,
 				9565300C22422A30002CD65E /* Const.swift in Sources */,

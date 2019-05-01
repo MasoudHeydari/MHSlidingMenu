@@ -28,7 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let baseController = PrimaryViewController()
         let menuController = MenuController()
         
-        let rootViewController = MHBaseSlidingController(baseController: baseController, menuController: menuController, mode: .slideIn, direction: .LTR, statusbarStyleWhenMenuIsOpen: .default)
+        let config = MHSlidingCofig(direction: .RTL, mode: .slideIn, statusbarStyleWhenMenuIsOpen: .default, menuWidth: 310)
+        
+        
+        let rootViewController = MHBaseSlidingController(baseController: baseController, menuController: menuController, config: config)
         window.makeKeyAndVisible()
         window.rootViewController = rootViewController
         window.backgroundColor = .white
