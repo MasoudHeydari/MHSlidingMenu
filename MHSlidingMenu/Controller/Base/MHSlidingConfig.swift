@@ -16,8 +16,8 @@ struct MHSlidingCofig {
 }
 
 enum MHSlidinMenuDirection {
-    case RTL
-    case LTR
+    case rtl
+    case ltr
 }
 
 enum MHSlidingMenuMode {

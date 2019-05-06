@@ -71,13 +71,13 @@ final class MHBaseSlidingController: UIViewController {
     
     init(baseController: UIViewController, menuController: UIViewController, config: MHSlidingCofig) {
         self.config = config
-        self.rightViewController = UINavigationController(rootViewController: baseController)
+        self.rightViewController = baseController
         self.menuController = menuController
         self.mode = config.mode
         self.direction = config.direction
         
         self.isMenuMode = (config.mode == .slideOut) ? true : false
-        self.isLeftToRight = (config.direction == .LTR) ? true : false
+        self.isLeftToRight = (config.direction == .ltr) ? true : false
 
         self.menuWidth = config.menuWidth
         
@@ -121,7 +121,6 @@ final class MHBaseSlidingController: UIViewController {
     }
     
     private func addConstraints() {
-        
         addCommonConstraints()
         
         if isMenuMode {
@@ -133,7 +132,7 @@ final class MHBaseSlidingController: UIViewController {
         setupViewControllers()
     }
     
-    fileprivate func addCommonConstraints() {
+    private func addCommonConstraints() {
         NSLayoutConstraint.activate([
             // mainViewContainer view constraints
             mainViewContainer.topAnchor.constraint(equalTo: view.topAnchor),
@@ -143,11 +142,11 @@ final class MHBaseSlidingController: UIViewController {
             menuViewContainer.topAnchor.constraint(equalTo: view.topAnchor),
             menuViewContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             menuViewContainer.widthAnchor.constraint(equalToConstant: self.menuWidth)
-            ])
+            ]
+		)
     }
     
-    fileprivate func addConstraintsWhenIsMenuModeIsTrue() {
-
+    private func addConstraintsWhenIsMenuModeIsTrue() {
         if isLeftToRight {
             sliderRightConstraint = mainViewContainer.rightAnchor.constraint(equalTo: view.rightAnchor)
             sliderRightConstraint.isActive = true
@@ -167,14 +166,13 @@ final class MHBaseSlidingController: UIViewController {
         }
     }
     
-    fileprivate func addConstraintsWhenIsMenuModeIsFalse() {
+    private func addConstraintsWhenIsMenuModeIsFalse() {
         mainViewContainer.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         mainViewContainer.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         
         dummyView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         dummyView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        
-        
+		
         sliderRightConstraint = dummyView.rightAnchor.constraint(equalTo: view.rightAnchor)
         sliderRightConstraint.isActive = true
         
@@ -186,21 +184,14 @@ final class MHBaseSlidingController: UIViewController {
         } else {
             menuViewContainer.leftAnchor.constraint(equalTo: dummyView.rightAnchor).isActive = true
         }
-        
     }
     
-    fileprivate func addDarkViewsConstraints() {
-        if isMenuMode {
-            darkViewCover.leftAnchor.constraint(equalTo: mainViewContainer.leftAnchor).isActive = true
-            darkViewCover.rightAnchor.constraint(equalTo: mainViewContainer.rightAnchor).isActive = true
-            darkViewCover.topAnchor.constraint(equalTo: mainViewContainer.topAnchor).isActive = true
-            darkViewCover.bottomAnchor.constraint(equalTo: mainViewContainer.bottomAnchor).isActive = true
-        } else {
-            darkViewCover.leftAnchor.constraint(equalTo: dummyView.leftAnchor).isActive = true
-            darkViewCover.rightAnchor.constraint(equalTo: dummyView.rightAnchor).isActive = true
-            darkViewCover.topAnchor.constraint(equalTo: dummyView.topAnchor).isActive = true
-            darkViewCover.bottomAnchor.constraint(equalTo: dummyView.bottomAnchor).isActive = true
-        }
+    private func addDarkViewsConstraints() {
+		let desiredView = isMenuMode ? mainViewContainer : dummyView
+		darkViewCover.leftAnchor.constraint(equalTo: desiredView.leftAnchor).isActive = true
+		darkViewCover.rightAnchor.constraint(equalTo: desiredView.rightAnchor).isActive = true
+		darkViewCover.topAnchor.constraint(equalTo: desiredView.topAnchor).isActive = true
+		darkViewCover.bottomAnchor.constraint(equalTo: desiredView.bottomAnchor).isActive = true
     }
     
     private func setupViewControllers() {
@@ -227,8 +218,8 @@ final class MHBaseSlidingController: UIViewController {
             menuView.rightAnchor.constraint(equalTo: menuViewContainer.rightAnchor),
             menuView.topAnchor.constraint(equalTo: menuViewContainer.topAnchor),
             menuView.bottomAnchor.constraint(equalTo: menuViewContainer.bottomAnchor),
-            
-            ])
+            ]
+		)
         
         addDarkViewsConstraints()
     }
@@ -255,13 +246,12 @@ final class MHBaseSlidingController: UIViewController {
         guard let completion = completion else {
             print("BaseSlidingController: completion block is nil!")
             return
-            
         }
         // perform completion block
         completion()
     }
     
-    fileprivate func privateOpenMenu() {
+    private func privateOpenMenu() {
         // enable user interaction for darkView if isMenuMode is false
         setUserInteractionForDummyAndDarkView(true)
         
@@ -272,8 +262,11 @@ final class MHBaseSlidingController: UIViewController {
         sliderRightConstraint.constant = isLeftToRight ? menuWidth : -menuWidth
         
         performAnimations { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
+            guard
+				let strongSelf = self,
+            	let delegate = strongSelf.delegate
+				else { return }
+			
             delegate.menuDidOpen()
         }
         
@@ -281,7 +274,7 @@ final class MHBaseSlidingController: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    fileprivate func privateCloseMenu() {
+    private func privateCloseMenu() {
         // disable user interaction for darkView if isMenuMode is true
         setUserInteractionForDummyAndDarkView(false)
         
@@ -292,8 +285,11 @@ final class MHBaseSlidingController: UIViewController {
         sliderRightConstraint.constant = 0
         
         performAnimations { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
+            guard
+				let strongSelf = self,
+            	let delegate = strongSelf.delegate
+				else { return }
+			
             delegate.menuDidClose()
         }
         // update the status bar style
@@ -301,29 +297,43 @@ final class MHBaseSlidingController: UIViewController {
     }
     
     private func performAnimations(completion: (() -> Void)? = nil) {
-        UIView.animate(withDuration: withDuration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.view.layoutIfNeeded()
-            strongSelf.darkViewCover.alpha = strongSelf.isMenuOpen ? 1 : 0
-            }, completion: { (_) in
+        UIView.animate(
+			withDuration			: withDuration,
+			delay					: 0,
+			usingSpringWithDamping	: 1,
+			initialSpringVelocity	: 1,
+			options					: .curveEaseOut,
+			animations				: { [weak self] in
+				guard let strongSelf = self else { return }
+				strongSelf.view.layoutIfNeeded()
+				strongSelf.darkViewCover.alpha = strongSelf.isMenuOpen ? 1 : 0
+			},
+			completion				: { (_) in
                 completion?()
-        })
+        	}
+		)
     }
     
-    fileprivate func setUserInteractionForDummyAndDarkView(_ isEnabled: Bool) {
+    private func setUserInteractionForDummyAndDarkView(_ isEnabled: Bool) {
         darkViewCover.isUserInteractionEnabled = isEnabled
         dummyView.isUserInteractionEnabled = isEnabled
     }
     
     // MARK:- Selector
-    @objc fileprivate func handlePan(gesture: UIPanGestureRecognizer) {
-        
-        if isLeftToRight {
-            handlePanWhenDirectionisLTR(gesture: gesture)
-        } else {
-            handlePanWhenDirectionisRTL(gesture: gesture)
-        }
-        
+    @objc
+	private func handlePan(gesture: UIPanGestureRecognizer) {
+		let translation = gesture.translation(in: view)
+		var x = translation.x
+		
+		x = isLeftToRight ? (isMenuOpen ? (x + menuWidth) : x) : (isMenuOpen ? (x - menuWidth) : x)
+		x = isLeftToRight ? min(x, self.menuWidth) : min(0, x)
+		x = isLeftToRight ? max(0, x) : max(x, -menuWidth)
+		
+		sliderLeftConstraint.constant = x
+		sliderRightConstraint.constant = x
+		
+		darkViewCover.alpha = isLeftToRight ? (x / menuWidth) : -(x / menuWidth)
+		
         switch gesture.state {
         case .ended:
             handlePanEnded(gesture: gesture)
@@ -331,113 +341,49 @@ final class MHBaseSlidingController: UIViewController {
             break
         }
     }
-    
-    fileprivate func handlePanWhenDirectionisLTR(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
-        var x = translation.x
-        
-        x = isMenuOpen ? (x + menuWidth) : x
-        
-        x = min(x, self.menuWidth)
-        x = max(0, x)
-        
-        sliderLeftConstraint.constant = x
-        sliderRightConstraint.constant = x
-        
-        darkViewCover.alpha = x / menuWidth
-
-    }
-    
-    fileprivate func handlePanWhenDirectionisRTL(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: view)
-        var x = translation.x
-
-        x = isMenuOpen ? (x - menuWidth) : x
-        
-        x = min(0, x)
-        x = max(x, -menuWidth)
-        
-        sliderLeftConstraint.constant = x
-        sliderRightConstraint.constant = x
-        
-        darkViewCover.alpha = -(x / menuWidth)
-    }
-    
+	
     private func handlePanEnded(gesture: UIPanGestureRecognizer) {
-        if isLeftToRight {
-            handlePanEndedWhenDirectionisLTR(gesture: gesture)
-        } else {
-            handlePanEndedWhenDirectionisRTL(gesture: gesture)
-        }
+		let translation = gesture.translation(in: self.view)
+		let velocity = gesture.velocity(in: self.view)
+		
+		if isMenuOpen {
+			// menu is open
+			let condition0 = isLeftToRight ? (velocity.x >= -velocityThreshold) : (velocity.x <= velocityThreshold)
+			
+			guard condition0 else {
+				privateCloseMenu()
+				return
+			}
+			
+			let condition1 = isLeftToRight ? (translation.x < 0) : (translation.x > 0)
+			let condition2 = isLeftToRight ? (abs(translation.x) > (menuWidth / 2)) : (translation.x > (menuWidth / 2))
+			if condition1, condition2 {
+				privateCloseMenu()
+			} else {
+				privateOpenMenu()
+			}
+			
+		} else {
+			// menu is close
+			let condition0 = isLeftToRight ? (velocity.x <= velocityThreshold) : (velocity.x >= -velocityThreshold)
+			
+			guard condition0 else {
+				privateOpenMenu()
+				return
+			}
+			
+			let condition1 = isLeftToRight ? (translation.x > (menuWidth / 2)) : (translation.x > -(menuWidth / 2))
+			if condition1 {
+				privateOpenMenu()
+			} else {
+				privateCloseMenu()
+			}
+			
+		}
     }
     
-    fileprivate func handlePanEndedWhenDirectionisLTR(gesture: UIPanGestureRecognizer) {
-        
-        let translation = gesture.translation(in: self.view)
-        let velocity = gesture.velocity(in: self.view)
-        
-        if isMenuOpen {
-            // menu is open
-            if velocity.x < -velocityThreshold {
-                privateCloseMenu()
-                return
-            }
-            
-            if (translation.x < 0) && abs(translation.x) > (menuWidth / 2) {
-                privateCloseMenu()
-            }
-            else {
-                privateOpenMenu()
-            }
-        } else {
-            // menu is close
-            if (velocity.x) > velocityThreshold {
-                // open the menu
-                privateOpenMenu()
-                return
-            }
-            
-            if translation.x > (menuWidth / 2) {
-                privateOpenMenu()
-            } else {
-                privateCloseMenu()
-            }
-        }
-    }
-
-    fileprivate func handlePanEndedWhenDirectionisRTL(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: self.view)
-        let velocity = gesture.velocity(in: self.view)
-        
-        if isMenuOpen {
-            // menu is open
-            if velocity.x > velocityThreshold {
-                privateCloseMenu()
-                return
-            }
-            
-            if (translation.x > 0) && translation.x > (menuWidth / 2) {
-                privateCloseMenu()
-            } else {
-                privateOpenMenu()
-            }
-        } else {
-            // menu is close
-            if (velocity.x) < -velocityThreshold {
-                // open the menu
-                privateOpenMenu()
-                return
-            }
-            
-            if translation.x > -(menuWidth / 2) {
-                privateCloseMenu()
-            } else {
-                privateOpenMenu()
-            }
-        }
-    }
-    
-    @objc fileprivate func dismissMenu(gesture: UITapGestureRecognizer) {
+    @objc
+	private func dismissMenu(gesture: UITapGestureRecognizer) {
         // close the menu
         privateCloseMenu()
     }
@@ -453,10 +399,12 @@ final class MHBaseSlidingController: UIViewController {
             strongSelf.privateCloseMenu()
         }
     }
+	
 }
 
 // MARK:- Delegate
-@objc protocol MHBaseSlidingControllerDelegate: class {
+@objc
+protocol MHBaseSlidingControllerDelegate: class {
     func menuDidOpen()
     func menuDidClose()
     
