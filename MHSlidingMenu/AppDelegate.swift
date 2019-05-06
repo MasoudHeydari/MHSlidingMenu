@@ -26,12 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let window = self.window else { return }
         
         let baseController = PrimaryViewController()
+		let navigationController = UINavigationController(rootViewController: baseController)
         let menuController = MenuController()
         
-        let config = MHSlidingCofig(direction: .RTL, mode: .slideIn, statusbarStyleWhenMenuIsOpen: .default, menuWidth: 310)
+        let config = MHSlidingCofig(direction: .ltr, mode: .slideOut, statusbarStyleWhenMenuIsOpen: .default, menuWidth: 310)
         
         
-        let rootViewController = MHBaseSlidingController(baseController: baseController, menuController: menuController, config: config)
+        let rootViewController = MHBaseSlidingController(baseController: navigationController, menuController: menuController, config: config)
         window.makeKeyAndVisible()
         window.rootViewController = rootViewController
         window.backgroundColor = .white
